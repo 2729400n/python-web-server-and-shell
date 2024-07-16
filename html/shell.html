@@ -1,0 +1,135 @@
+<!DOCTYPE HTML>
+<html lang="en-gb">
+<html>
+
+<head>
+	<title>Shell</title>
+	<link href="CSS/style.css" rel="stylesheet" type="text/css">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+</head>
+
+<body>
+	<header>
+		<h1>$Hell</h1>
+		<canvas id="img" style="height: 100px;width: 100px;background-color: white;"><svg>
+				<path style="fill:black;stroke-width:2px;" path="M 0 0 L100 0 L100 100 L0 100"></path>
+			</svg></canvas>
+	</header>
+	<nav>
+		<ul>
+			<li><a href="index.html">Home</a></li>
+		</ul>
+	</nav>
+	<h1> Welcome To the shell page</h1>
+	<main>
+		<section id="shell_section" style="background-color:#ffffffff;clear:both;display:inline;float: left;">
+			<textarea readonly style="height: 600px;width: 500px;resize: none;" draggable="false" id="log"></textarea>
+			<input type="text" style="width: 500px;" maxlength="500" name="input_line" id="input_line">
+		</section>
+		<section id="help_section"
+			style="background-color:#ffffff;clear: both;display: inline;float: right;position: relative;top:-550px">
+			<form id="help" style="background-color: #ffffffff;" action="/PHP/help.php">
+				<section>
+					<label for="username">username</label>
+					<input name="username" required id="username" type="text">
+				</section>
+				<section>
+					<label for="category">category</label>
+					<select name="category" id="category" required>
+						<option value="main">Main</option>
+						<option value="web">Web</option>
+						<option value="other">Other</option>
+					</select>
+				</section>
+				<textarea name="query" id="query" style="width: inherit" placeholder="Write question here"></textarea>
+				<input type="button" form="help" name="submit" value="submit">
+			</form>
+			<iframe></iframe>
+		</section>
+		<script>
+			var submits = document.getElementsByName("submit");
+			submits.forEach((value, key, parent) => {
+				value.addEventListener("click", arrgs => {
+
+					console.log(arrgs.srcElement.form);
+					var form = arrgs.srcElement.form;
+					this.form = form;
+					console.log(form.elements);
+					var complete = true;
+					for (i = 0; i < form.elements.length; i++) {
+						if ((form.elements[i].required) && ((form.elements[i].value == null) || (form.elements[i].value == undefined) || (form.elements[i].value == ""))) {
+							complete = false;
+						}
+					};
+					if (complete) {
+						var msg = new String();
+						for (i = 0; i < form.elements.length; i++) {
+							if ((form.elements[i].name.toLowerCase() != "submit") && !((form.elements[i].value == null) || (form.elements[i].value == undefined) || (form.elements[i].value == ""))) {
+								msg += form.elements[i].name.toLowerCase() + "=" + form.elements[i].value + "&";
+								console.log(form.elements[i].value);
+							}
+						};
+						msg = msg.substr(0, msg.lastIndexOf("&"));
+						console.log(msg);
+
+						var xhttp = new XMLHttpRequest();
+						xhttp.open("POST", form.action);
+						xhttp.send(msg);
+						setTimeout(null, 1000);
+						this.confirm(xhttp.response);
+					} else {
+						prompt("message not sent");
+
+					}
+				});
+			});
+			var shell_input_line = document.getElementById("input_line");
+			shell_input_line.addEventListener("keypress", (ev) => {
+				var xhttp = new XMLHttpRequest();
+				xhttp.addEventListener("abort", aargs => {
+					xhttp.open("POST", `https://${window.location.hostname}/shell`)
+				});
+				xhttp.addEventListener("timeout", aargs => {
+					xhttp.open("POST", `https://${window.location.hostname}/shell`)
+				});
+				function open_conn() {
+					window.xhttp.open("POST", `https://${window.location.hostname}/shell`)
+				}
+				window.xhttp = xhttp;
+				if (ev.keyCode == 13 && !ev.shiftKey) {
+					if (xhttp.status != xhttp.OPENED) {
+						window.xhttp.open("POST", `/shell`)
+					}
+					var source = ev.srcElement.value;
+					source = source.split("\x20");
+					source.forEach(element => {
+						element.trim();
+
+					});
+					console.log(source);
+					args = source.join(",").replace(`${source[0]},`);
+
+					window.xhttp.send(`command=${source[0]}&args=${args}`).then(x => {
+						this.prompt(x);
+					}, y => {
+						console.log(`connection failed{${y}}`);
+
+					});
+				}
+			})
+		</script>
+		<script>
+			var logger = document.getElementById("log");
+			var input_line = document.getElementById("input_line");
+		</script>
+	</main>
+	<footer>
+		<ul>
+			<li>
+				<a href="index.html"></a>
+			</li>
+		</ul>
+	</footer>
+</body>
+
+</html>

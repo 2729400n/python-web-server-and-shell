@@ -1,0 +1,36 @@
+<!DOCTYPE HTML>
+<html lang="en-gb">
+
+<head>
+	<Title>
+		Hello World
+	</Title>
+	<script>
+		console.log("Hello")
+		function getsuite() {
+			var xhttp = new XMLHttpRequest();
+			xhttp.addEventListener("readystatechange", (ev) => {
+				console.log(ev);
+			});
+			var username = document.getElementById("username").value;
+			var password = document.getElementById("password").value;
+
+			xhttp.open("POST", `/login`);
+			xhttp.send(`username=${username};password=${password}`)
+			resp = xhttp.response;
+			console.log(resp)
+		};
+		window.__proto__.getsuite = getsuite;
+	</script>
+	<script src="JS/cookiecutter.js"></script>
+	<link href="CSS/style.css" type="text/css" rel="stylesheet">
+</head>
+
+<body style="background-color: #deadbeef;border: #deadbeef;">
+	<h1>Welcome to a Test</h1>
+	<p>More to be implemented</p>
+	<iframe async name="loginframe" id="loginframe" src="login.html"></iframe>
+
+</body>
+
+</html>

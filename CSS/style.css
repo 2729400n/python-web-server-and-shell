@@ -1,0 +1,35 @@
+/* When using this framework must give credit to Kevin Nnaji under GPLv2*/
+
+* {clear:both;}
+button {stroke: blanchedalmond;background-color: #deadbeef;}
+header * {display: inline;float: left;}
+body>*{clear:both;display:block;margin-bottom: 20px;margin-top: 20px;width: inherit;background-color: #90a0ffff;}
+main {background-color:cornflowerblue;}
+main>*{clear: both;display: block;}
+script{display: none;}
+nav {background-color: #80a0ffff;display: block;margin-bottom: 50px;margin-top:50px;height: fit-content;width: inherit;}
+nav li {display: inline;float:left;}
+body {background-color: #ffffffff;}
+@font-face {
+	font-family: comic-sans;
+	src: url(../fonts/LDFComicSansLight.ttf);
+	
+}/*
+Header Elements*/
+header >* {clear: both;display: inline;}
+
+textarea {font-family: comic-sans;margin-bottom: 0px;padding: 0px;color: green;background-color: black;border-bottom-style:ridge;width: 500px;border-color: green;}
+#input_line{font-family: comic-sans;margin-top: 0px;padding:0px;color: green;background-color: black;border-top-style: ridge;position: relative;bottom: 0px;width: inherit;}
+/*
+Form Elements
+*/
+form {clear:both}
+form >* {clear: both;display: block;}
+#form>* {clear:both;display: block;}
+form>div, form>section {clear:both; display: block;width: inherit;}
+form  section>*  { display: inline;}
+/*
+Section Elements
+*/
+section {clear: both;display:inline;float:left;margin: 10px;padding: 10px;background-color: #4070cfff;}
+section>* {clear:both;display: block;}

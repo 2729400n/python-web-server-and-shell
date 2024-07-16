@@ -1,0 +1,120 @@
+#!/usr/bin/env python
+
+import http.server,threading,sys,re,socket,errno,socketserver
+
+class HttpreqHandleClass(http.server.SimpleHTTPRequestHandler):
+	method=""
+	reqb=b''
+
+	def do_POST(self):
+		f =self.send_head()
+		
+
+	#def handle(self,req):
+		#print(req)
+		#self.reqb=req.recv(0x400)
+		#print(self.reqb)
+		#request = str(self.reqb, 'iso-8859-1')
+		#reg=re.match(b'^[A-z]*\x20',self.reqb)
+		#reg=self.reqb[reg.regs[0][0]:reg.regs[0][1]-1]
+		#if(re.match("GET",reg,re.I)):
+		#	self.method="GET"
+		#else:
+		#	self.method="POST"
+		#
+		#reg=re.match(b'^[A-z]*\x20',self.reqb)
+		#reg=self.reqb[reg.regs[0][0]:reg.regs[0][1]-1]
+		#reqline = request.rstrip("\r\n")
+		#with reqline.split() as operts:
+		#	if(len(operts) ==3):
+		#		method,path,ver=operts
+		#self.method = method
+		#self.path = self.urilify(path)
+		#if(method=="GET"):
+		#	self.vars = self.get_vars(path)
+		#if(re.match("HTTP/",ver)!=None):
+		#	super().handle()
+	
+	
+
+class HTTPSERVER(socket.socket):
+	activesockets = [{},{},{},0]
+	activecount = 0
+	connectionopen = True
+	allowing_connections = True
+	activerequests =dict()
+	sessionids =dict()
+	allowedamount = int()
+	
+	def __init__(self, requesthandler=http.server.SimpleHTTPRequestHandler.__init__) -> None:
+		self.requesthandler = requesthandler
+		super().__init__(socket.AF_INET, socket.SOCK_STREAM)
+	
+	def recv(self, __bufsize: int, __flags: int = ...) -> bytes:
+		request = super().recv(__bufsize, __flags=__flags)
+		print(request)	
+
+	def accept(self) -> "tuple[socket.socket, tuple[str,int]]":
+		
+		conn,addr = super().accept()
+		self.activesockets[0].setdefault("{0}:{1}".format(addr[0],addr[1]),conn)
+		self.activesockets[1].setdefault("{0}:{1}".format(addr[0],addr[1]),addr)
+		self.activesockets[2].setdefault("{0}:{1}".format(addr[0],addr[1]),{"alive":True,"JRAR":True})
+		self.activesockets[2]+=1
+		self.activecount+=1
+		return (conn,addr)
+		
+	
+	def listen(self, __backlog: int = ...) -> None:
+		if(self.getsockname[1]==0):
+			try:
+				self.bind(("0.0.0.0",80))
+			except Exception:
+				self.bind(("0.0.0.0",8080))
+
+		print("Listening on port {0}".format(self.getsockname[1]))
+		if(__backlog & __backlog>0):
+			self.allowedamount = __backlog
+		else:
+			self.allowedamount=9000
+			
+		for i in range(0,self.allowedamount):
+			self.sessionids.setdefault(i,None)
+				
+		return super().listen(__backlog=__backlog)
+
+	#def handlerequests(self,sessionid):
+		while self.activesockets[2][sessionid]["alive"] :
+			f = self.activesockets[0][sessionid].recv(500)
+			
+
+
+	#def serve_forever(self):
+		self.listen()
+		while(self.allowing_connections):
+			conn,addr =self.accept()
+			for i in range(0,self.allowedamount):
+				if(self.sessionids[i]!=None):
+					self.sessionids[i]="{0}:{1}".format(addr[0],addr[1])
+			self.activerequests.setdefault("{0}:{1}".format(addr[0],addr[1]),threading.Thread(None,))
+			
+			
+	
+
+
+
+server = None
+
+def main(argc,argv):
+	global server
+	server = http.server.HTTPServer(("0.0.0.0",8080),HttpreqHandleClass)
+	serve(server)
+
+
+def serve(httpserver:http.server.HTTPServer):
+		sthread= threading.Thread(None,httpserver.serve_forever,"serverthrd")
+		print("starting the http server thread")
+		sthread.start()
+
+main(len(sys.argv),sys.argv)
+http.server.SimpleHTTPRequestHandler.handle_one_request
