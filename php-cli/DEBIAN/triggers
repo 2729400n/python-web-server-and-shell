@@ -1,3 +1,0 @@
-activate-noawait /etc/php/7.2/apache2/conf.d
-activate-noawait /etc/php/7.2/apache2filter/conf.d
-activate-noawait /etc/php/7.2/fpm/conf.d
