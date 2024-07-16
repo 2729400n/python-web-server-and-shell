@@ -21,7 +21,7 @@ def readusers(cmd=["net", "user"]):
 
 
 global UIDS, USERS
-UIDS, USERS = readusers()
+#UIDS, USERS = readusers()
 
 
 del os

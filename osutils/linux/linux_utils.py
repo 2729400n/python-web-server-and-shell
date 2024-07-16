@@ -42,7 +42,7 @@ def readusers(passwd_path="/etc/passwd"):
 
 
 global UIDS, USERS
-UIDS, USERS = readusers()
+#UIDS, USERS = readusers()
 
 
 def getuserInfoByUID(uid):

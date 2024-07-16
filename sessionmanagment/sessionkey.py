@@ -1,9 +1,11 @@
 import os
+MAXDEPTH = 0x64
 if(os.name!='nt'):
+    print(os.name)
     from crypt import *
     import cryptography
 
-    MAXDEPTH = 0x64
+    
 
 
     def make_new_key(hint: str, dictionary: dict, depth=1, maxdepth=MAXDEPTH):
@@ -20,4 +22,7 @@ if(os.name!='nt'):
                 make_new_key(key, dictionary, depth+1)
             else:
                 return -1
+else:   
+    def make_new_key(hint: str, dictionary: dict, depth=1, maxdepth=MAXDEPTH):
+        return -1         
 del os
